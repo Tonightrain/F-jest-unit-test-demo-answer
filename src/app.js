@@ -1,1 +1,1 @@
-import "demo/register";
+import "./demo/register";
