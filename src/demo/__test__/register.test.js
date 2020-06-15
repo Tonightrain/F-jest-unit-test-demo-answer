@@ -1,17 +1,38 @@
-import { verifyPassword } from "../register";
+import axios from "axios";
+import { register } from "../register";
 
-describe("verifyPassword", () => {
-  test("should return false when password length < 6", () => {
-    // Arrange
-    // 设置输入密码password的值为“12345”
-    const testPassword = "12345";
+jest.mock("axios");
 
-    // Act
-    // 调用验证密码函数 verifyPassword(password)
-    const result = verifyPassword(testPassword);
+describe("register", () => {
+  test("should get response when success", async () => {
+    const user = {
+      username: "name",
+      password: "123456Az",
+    };
+    axios.post.mockResolvedValue(Promise.resolve({ data: "success" }));
 
-    // Assert
-    // 验证输出结果是否为false
-    expect(result).toEqual(false);
+    await expect(register(user)).resolves.toEqual({
+      data: "success",
+    });
+  });
+
+  test("should catch error when password invalid", async () => {
+    const user = {
+      username: "name",
+      password: "123456",
+    };
+
+    await expect(register(user)).rejects.toThrowError();
+  });
+
+  test("should be rejected when request failed", async () => {
+    const user = {
+      username: "name",
+      password: "123456Az",
+    };
+
+    axios.post.mockRejectedValue(new Error("Already Registered"));
+
+    await expect(register(user)).rejects.toThrowError("Already Registered");
   });
 });
