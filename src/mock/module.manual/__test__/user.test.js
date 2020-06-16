@@ -1,8 +1,7 @@
 import { verifyPassword, verifyUsername } from "../verify";
-import { validate, register } from "../user";
+import { validate } from "../user";
 
 jest.mock("../verify");
-jest.mock("axios");
 
 describe("validate", () => {
   test("should validate username and password", () => {
@@ -15,11 +14,5 @@ describe("validate", () => {
     expect(verifyPassword).toHaveBeenCalledWith(password);
     expect(verifyUsername).toHaveBeenCalledWith(username);
     expect(result).toBeTruthy();
-  });
-});
-
-describe("register", () => {
-  test("should post user when validated", async () => {
-    await expect(register()).resolves.toEqual({});
   });
 });
