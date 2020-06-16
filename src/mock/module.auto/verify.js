@@ -3,4 +3,8 @@ function verifyPassword(password) {
   return regexExp.test(password);
 }
 
-export { verifyPassword };
+function verifyUsername(username) {
+  return username;
+}
+
+export { verifyPassword, verifyUsername };
