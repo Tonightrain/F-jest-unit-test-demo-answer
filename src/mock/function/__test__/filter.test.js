@@ -3,23 +3,24 @@ import filter from "../filter";
 describe("mock callback", () => {
   test("toHaveBeenCalledWith", () => {
     // Arrange
-    const callbackMock = jest.fn();
+    const callbackFn = jest.fn();
     // Act
-    filter(callbackMock, [1, 2]);
+    filter(callbackFn, [1, 2]);
     // Assert
-    expect(callbackMock).toHaveBeenCalled();
-    expect(callbackMock).toHaveBeenCalledWith([1, 2]);
-    expect(callbackMock).toHaveBeenCalledTimes(1);
+    expect(callbackFn).toHaveBeenCalled();
+    expect(callbackFn).toHaveBeenCalledTimes(2);
+    expect(callbackFn).toHaveBeenCalledWith(1);
+    expect(callbackFn).toHaveBeenLastCalledWith(2);
   });
 
   test("toHaveReturned", () => {
     // Arrange
-    const callbackMock = jest.fn(() => 1);
+    const callbackFn = jest.fn(() => false);
     // Act
-    filter(callbackMock, [1, 2]);
+    const result = filter(callbackFn, [1, 2]);
     // Assert
-    expect(callbackMock).toHaveReturned();
-    expect(callbackMock).toHaveReturnedWith(1);
-    expect(callbackMock).toHaveReturnedTimes(1);
+    expect(callbackFn).toHaveReturned();
+    expect(callbackFn).toHaveReturnedWith(false);
+    expect(result).toEqual([]);
   });
 });
